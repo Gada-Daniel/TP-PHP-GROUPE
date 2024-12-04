@@ -1,6 +1,8 @@
 <?php
 include("config.php");
 session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 if (isset($_POST['envoyer'])) {
     $email = htmlspecialchars($_POST['email']);
@@ -10,17 +12,23 @@ if (isset($_POST['envoyer'])) {
         $req = $bdd->prepare('SELECT id_user, email, password FROM utilisateur WHERE email = :email');
         $req->execute(['email' => $email]);
         $user = $req->fetch();
-
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['id_user'] = $user['id_user'];
-            $_SESSION['email'] = $user['email'];
-            header('location:index.php');
-            exit();
-        } else {$message = "Identifiants incorrects. Veuillez réessayer.";}
-    } else {$message = "Tous les champs doivent être remplis.";}
+        if ($user) {
+            if (password_verify($password, $user['password'])) {
+                $_SESSION['id_user'] = $user['id_user'];
+                $_SESSION['email'] = $user['email'];
+                header('location:index.php');
+                exit();
+            } else {
+                echo "Mot de passe incorrect.";
+            }
+        } else {
+            echo "Utilisateur non trouvé.";
+        }
+    } else {
+        echo "Tous les champs doivent être remplis.";
+    }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="FR">
 <head>
@@ -40,13 +48,12 @@ if (isset($_POST['envoyer'])) {
         <input type="password" name="password" id="password" required/><br><br>
 
         <input type="submit" name="envoyer" id="envoyer" value="Se connecter"/>
+        <?php
+        if (isset($message)) :
+            ?>
+            <?= $message ?><p></p>
+        <?php endif; ?>
     </form>
-
-    <?php
-    if (isset($message)) :
-        ?>
-        <?= $message ?><p></p>
-    <?php endif; ?>
 </div>
 </body>
 </html>
