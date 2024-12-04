@@ -1,20 +1,19 @@
-DROP TABLE IF EXISTS `utilisateur`;
-CREATE TABLE IF NOT EXISTS `utilisateur` (
-  `id_user` int NOT NULL AUTO_INCREMENT,
-  `prenom` varchar(50) NOT NULL,
-  `nom` varchar(50) NOT NULL,
-  `naissance` date NOT NULL,
-  `telephone` varchar(15) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `adresse` varchar(255) DEFAULT NULL,
-  `postal` varchar(10) DEFAULT NULL,
-  `ville` varchar(50) DEFAULT NULL,
-  `pays` varchar(50) DEFAULT NULL,
-  `tag` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_user`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-COMMIT;
+-- Table : Citoyens
+CREATE TABLE IF NOT EXISTS Citoyens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prenom VARCHAR(50) NOT NULL,
+    nom VARCHAR(50) NOT NULL,
+    telephone VARCHAR(15) UNIQUE NOT NULL
+)ENGINE=InnoDB;
+
+-- Table : RendezVous
+CREATE TABLE IF NOT EXISTS RendezVous (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    citoyen_id INT NOT NULL,
+    date_heure DATETIME NOT NULL,
+    lieu VARCHAR(255) NOT NULL,
+    titre VARCHAR(255) NOT NULL,
+    description TEXT,
+    statut ENUM('A Venir', 'Annulé', 'Effectué') DEFAULT 'A Venir',
+    FOREIGN KEY (citoyen_id) REFERENCES Citoyens(id) ON DELETE CASCADE
+)ENGINE=InnoDB;
