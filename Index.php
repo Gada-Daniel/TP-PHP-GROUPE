@@ -23,7 +23,9 @@ $utilisateurs = recuperation_utilisateur();
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1 style="text-transform: uppercase">Accueil</h1>
+<h1 style="text-transform: uppercase">Accueil</h1><p></p>
+<a href="Inscription.php">INSCRIPTION</a><br>
+<a href="connexion.php">CONNEXION</a><p></p>
 <table>
     <thead>
     <tr>
