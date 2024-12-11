@@ -1,7 +1,6 @@
 <?php
 function recuperation_utilisateur() {
     try {
-        // Connexion à la base de données
         $bdd = new PDO('mysql:host=localhost;dbname=tp_crud;charset=utf8mb4', 'root', '');
         $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $req = $bdd->prepare("SELECT * FROM utilisateur");
@@ -11,8 +10,6 @@ function recuperation_utilisateur() {
         die("Erreur de connexion à la base de données : " . $e->getMessage());
     }
 }
-
-// Suppression de l'utilisateur si un ID est envoyé en POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_user'])) {
     try {
         $bdd = new PDO('mysql:host=localhost;dbname=tp_crud;charset=utf8mb4', 'root', '');
@@ -21,15 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_user'])) {
         $req = $bdd->prepare("DELETE FROM utilisateur WHERE id_user = :id_user");
         $req->bindParam(':id_user', $_POST['id_user'], PDO::PARAM_INT);
         $req->execute();
-
-        // Message de confirmation
-        echo "<script>alert('Utilisateur supprimé avec succès !');</script>";
-    } catch (PDOException $e) {
+        } catch (PDOException $e) {
         die("Erreur lors de la suppression : " . $e->getMessage());
     }
 }
-
-// Récupérer tous les utilisateurs pour l'affichage
 $utilisateurs = recuperation_utilisateur();
 ?>
 
@@ -43,9 +35,11 @@ $utilisateurs = recuperation_utilisateur();
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1 style="text-transform: uppercase">Accueil</h1><p></p>
-<a href="Inscription.php">INSCRIPTION</a><br>
-<a href="connexion.php">CONNEXION</a><p></p>
+<h1 style="text-transform: uppercase">Accueil</h1>
+<div class="btn-group" role="group" aria-label="Basic example">
+<a href="Inscription.php" class="btn btn-outline-success">INSCRIPTION</a>
+<a href="connexion.php" class="btn btn-outline-success">CONNEXION</a>
+</div>
 <table>
     <thead>
     <tr>
