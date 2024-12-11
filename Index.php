@@ -69,6 +69,10 @@ $utilisateurs = recuperation_utilisateur();
                             Supprimer
                         </button>
                     </form>
+                    <form method="POST" action="editer_utilisateur.php" style="display: inline;">
+                        <input type="hidden" name="id_user" value="<?= $utilisateur['id_user']; ?>">
+                        <button type="submit">Éditer</button>
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>
