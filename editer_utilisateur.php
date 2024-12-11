@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier'])) {
     $naissance = $_POST['naissance'];
     $telephone = $_POST['telephone'];
     $email = $_POST['email'];
-
     try {
         $update = $bdd->prepare("
             UPDATE utilisateur 
@@ -57,33 +56,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modifier'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Éditer utilisateur</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 </head>
-<body>
-<h1>Éditer l'utilisateur</h1>
-<form method="POST" action="">
+<body class="container">
+<h1 class="text-center text-uppercase">Éditer l'utilisateur</h1>
+<form method="POST" action="" class="bg-secondary-subtle px-2 py-2 border border-black rounded border-2">
     <input type="hidden" name="id_user" value="<?= $id_user; ?>">
-    <label for="prenom">Prénom :</label>
-    <input type="text" id="prenom" name="prenom" value="<?= htmlspecialchars($utilisateur['prenom']); ?>" required>
-    <br>
-
-    <label for="nom">Nom de famille :</label>
-    <input type="text" id="nom" name="nom" value="<?= htmlspecialchars($utilisateur['nom']); ?>" required>
-    <br>
-
-    <label for="naissance">Date de naissance :</label>
-    <input type="date" id="naissance" name="naissance" value="<?= htmlspecialchars($utilisateur['naissance']); ?>" required>
-    <br>
-
-    <label for="telephone">Téléphone :</label>
-    <input type="text" id="telephone" name="telephone" value="<?= htmlspecialchars($utilisateur['telephone']); ?>" required>
-    <br>
-
-    <label for="email">Email :</label>
-    <input type="email" id="email" name="email" value="<?= htmlspecialchars($utilisateur['email']); ?>" required>
-    <br>
-
-    <button type="submit" name="modifier">Enregistrer les modifications</button>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" name="prenom" value="<?= htmlspecialchars($utilisateur['prenom']); ?>" required>
+        <label for="floatingInput">Prénom :</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" name="nom" value="<?= htmlspecialchars($utilisateur['nom']); ?>" required>
+        <label for="floatingInput">Nom de famille :</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="date" class="form-control" id="floatingInput" name="naissance" value="<?= htmlspecialchars($utilisateur['naissance']); ?>" required>
+        <label for="floatingInput">Date de naissance :</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" name="telephone" value="<?= htmlspecialchars($utilisateur['telephone']); ?>" required>
+        <label for="floatingInput">Téléphone :</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="floatingInput" name="email" value="<?= htmlspecialchars($utilisateur['email']); ?>" required>
+        <label for="floatingInput">Email :</label>
+    </div>
+    <div class="mb-3">
+        <button type="submit" name="modifier" class="btn btn-outline-success">Enregistrer les modifications</button>
+        <a href="index.php" class="btn btn-outline-danger">Annuler</a>
 </form>
-<a href="index.php">Annuler</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

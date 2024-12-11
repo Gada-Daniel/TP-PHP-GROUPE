@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_user'])) {
         $req = $bdd->prepare("DELETE FROM utilisateur WHERE id_user = :id_user");
         $req->bindParam(':id_user', $_POST['id_user'], PDO::PARAM_INT);
         $req->execute();
-        } catch (PDOException $e) {
+    } catch (PDOException $e) {
         die("Erreur lors de la suppression : " . $e->getMessage());
     }
 }
@@ -35,10 +35,10 @@ $utilisateurs = recuperation_utilisateur();
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1 style="text-transform: uppercase">Accueil</h1>
+<h1 class="text-center text-uppercase">Accueil</h1>
 <div class="btn-group" role="group" aria-label="Basic example">
-<a href="Inscription.php" class="btn btn-outline-success">INSCRIPTION</a>
-<a href="connexion.php" class="btn btn-outline-success">CONNEXION</a>
+    <a href="Inscription.php" class="btn btn-outline-success">INSCRIPTION</a>
+    <a href="connexion.php" class="btn btn-outline-success">CONNEXION</a>
 </div>
 <table>
     <thead>
@@ -65,13 +65,13 @@ $utilisateurs = recuperation_utilisateur();
                 <td>
                     <form method="POST" action="">
                         <input type="hidden" name="id_user" value="<?= $utilisateur['id_user']; ?>">
-                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                        <button type="submit" class="border rounded border-danger bg-danger-subtle px-2 py-1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
                             Supprimer
                         </button>
                     </form>
                     <form method="POST" action="editer_utilisateur.php" style="display: inline;">
                         <input type="hidden" name="id_user" value="<?= $utilisateur['id_user']; ?>">
-                        <button type="submit">Éditer</button>
+                        <button type="submit" class="border rounded border-primary bg-primary-subtle px-2 py-1">Éditer</button>
                     </form>
                 </td>
             </tr>
