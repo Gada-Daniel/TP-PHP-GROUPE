@@ -21,6 +21,24 @@ $utilisateurs = recuperation_utilisateur();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil</title>
     <link rel="stylesheet" href="styles.css">
+    <script>
+        function supprimerUtilisateur(id) {
+            if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
+                fetch(`supprimer_utilisateur.php?id=${id}`, {
+                    method: 'POST'
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        alert(data);
+                        location.reload(); // Recharge la page après suppression
+                    })
+                    .catch(error => {
+                        console.error("Erreur :", error);
+                        alert("Erreur lors de la suppression.");
+                    });
+            }
+        }
+    </script>
 </head>
 <body>
 <h1 style="text-transform: uppercase">Accueil</h1><p></p>
@@ -35,6 +53,7 @@ $utilisateurs = recuperation_utilisateur();
         <th>Numéro tel</th>
         <th>Email</th>
         <th>Inscription</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -47,11 +66,15 @@ $utilisateurs = recuperation_utilisateur();
                 <td><?= htmlspecialchars($utilisateur['telephone']); ?></td>
                 <td><?= htmlspecialchars($utilisateur['email']); ?></td>
                 <td><?= htmlspecialchars($utilisateur['created_at']); ?></td>
+                <td>
+                    <button onclick="location.href='editer_utilisateur.php?id=<?= $utilisateur['id_user']; ?>'">Modifier</button>
+                    <button onclick="location.href='supprimer_utilisateur.php?id=<?php $utilisateur['id_user']; ?>'">Supprimer</button>
+                </td>
             </tr>
         <?php endforeach; ?>
     <?php else: ?>
         <tr>
-            <td colspan="11">Aucun utilisateur trouvé.</td>
+            <td colspan="7">Aucun utilisateur trouvé.</td>
         </tr>
     <?php endif; ?>
     </tbody>
