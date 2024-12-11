@@ -91,6 +91,8 @@ if (isset($_POST['envoyer'])) {
     <?php if (isset($message)) : ?>
         <?= $message ?><p></p>
     <?php endif; ?>
+    <p>
+        Déjà un compte ? <a href="Connexion.php">Se connecter</a>
 </div>
 </body>
 </html>

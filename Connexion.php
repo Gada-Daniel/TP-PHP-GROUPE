@@ -54,6 +54,8 @@ if (isset($_POST['envoyer'])) {
             <?= $message ?><p></p>
         <?php endif; ?>
     </form>
+    <p>
+    Pas encore de compte ? <a href="Inscription.php">S'inscrire</a>
 </div>
 </body>
 </html>
