@@ -34,10 +34,6 @@ $utilisateurs = recuperation_utilisateur();
         <th>Date naissance</th>
         <th>Numéro tel</th>
         <th>Email</th>
-        <th>Adresse</th>
-        <th>Code postal</th>
-        <th>Ville</th>
-        <th>Pays</th>
         <th>Inscription</th>
     </tr>
     </thead>
@@ -50,10 +46,6 @@ $utilisateurs = recuperation_utilisateur();
                 <td><?= htmlspecialchars($utilisateur['naissance']); ?></td>
                 <td><?= htmlspecialchars($utilisateur['telephone']); ?></td>
                 <td><?= htmlspecialchars($utilisateur['email']); ?></td>
-                <td><?= htmlspecialchars($utilisateur['adresse']); ?></td>
-                <td><?= htmlspecialchars($utilisateur['postal']); ?></td>
-                <td><?= htmlspecialchars($utilisateur['ville']); ?></td>
-                <td><?= htmlspecialchars($utilisateur['pays']); ?></td>
                 <td><?= htmlspecialchars($utilisateur['created_at']); ?></td>
             </tr>
         <?php endforeach; ?>
