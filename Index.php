@@ -2,7 +2,7 @@
 function recuperation_utilisateur() {
     try {
         // Connexion à la base de données
-        $bdd = new PDO('mysql:host=localhost;dbname=tp_crud;charset=utf8', 'root', '');
+        $bdd = new PDO('mysql:host=localhost;dbname=tp_crud;charset=utf8mb4', 'root', '');
         $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $req = $bdd->prepare("SELECT * FROM utilisateur");
         $req->execute();
@@ -11,6 +11,25 @@ function recuperation_utilisateur() {
         die("Erreur de connexion à la base de données : " . $e->getMessage());
     }
 }
+
+// Suppression de l'utilisateur si un ID est envoyé en POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_user'])) {
+    try {
+        $bdd = new PDO('mysql:host=localhost;dbname=tp_crud;charset=utf8mb4', 'root', '');
+        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $req = $bdd->prepare("DELETE FROM utilisateur WHERE id_user = :id_user");
+        $req->bindParam(':id_user', $_POST['id_user'], PDO::PARAM_INT);
+        $req->execute();
+
+        // Message de confirmation
+        echo "<script>alert('Utilisateur supprimé avec succès !');</script>";
+    } catch (PDOException $e) {
+        die("Erreur lors de la suppression : " . $e->getMessage());
+    }
+}
+
+// Récupérer tous les utilisateurs pour l'affichage
 $utilisateurs = recuperation_utilisateur();
 ?>
 
@@ -20,25 +39,8 @@ $utilisateurs = recuperation_utilisateur();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
-    <script>
-        function supprimerUtilisateur(id) {
-            if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
-                fetch(`supprimer_utilisateur.php?id=${id}`, {
-                    method: 'POST'
-                })
-                    .then(response => response.text())
-                    .then(data => {
-                        alert(data);
-                        location.reload(); // Recharge la page après suppression
-                    })
-                    .catch(error => {
-                        console.error("Erreur :", error);
-                        alert("Erreur lors de la suppression.");
-                    });
-            }
-        }
-    </script>
 </head>
 <body>
 <h1 style="text-transform: uppercase">Accueil</h1><p></p>
@@ -67,8 +69,12 @@ $utilisateurs = recuperation_utilisateur();
                 <td><?= htmlspecialchars($utilisateur['email']); ?></td>
                 <td><?= htmlspecialchars($utilisateur['created_at']); ?></td>
                 <td>
-                    <button onclick="location.href='editer_utilisateur.php?id=<?= $utilisateur['id_user']; ?>'">Modifier</button>
-                    <button onclick="location.href='supprimer_utilisateur.php?id=<?php $utilisateur['id_user']; ?>'">Supprimer</button>
+                    <form method="POST" action="">
+                        <input type="hidden" name="id_user" value="<?= $utilisateur['id_user']; ?>">
+                        <button type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                            Supprimer
+                        </button>
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -79,5 +85,6 @@ $utilisateurs = recuperation_utilisateur();
     <?php endif; ?>
     </tbody>
 </table>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
